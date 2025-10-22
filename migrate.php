@@ -77,9 +77,21 @@ class CMSMigration
         $contents = [];
         $seqNo = 1;
 
+        try {
+            $mainContent = $crawler->filter('main#main[role="main"]');
+            
+            if ($mainContent->count() === 0) {
+                echo "Warning: Could not find <main id=\"main\" role=\"main\"> element. Extracting from entire document.\n";
+                $mainContent = $crawler;
+            }
+        } catch (\Exception $e) {
+            echo "Warning: Error filtering main content: {$e->getMessage()}. Extracting from entire document.\n";
+            $mainContent = $crawler;
+        }
+
         foreach (self::SELECTOR_MAPPING as $selector => $componentName) {
             try {
-                $elements = $crawler->filter($selector);
+                $elements = $mainContent->filter($selector);
 
                 foreach ($elements as $element) {
                     $value = $this->extractElementValue($element);
