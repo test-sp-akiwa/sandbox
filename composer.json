@@ -1,0 +1,9 @@
+{
+    "name": "migration/cms-migration",
+    "description": "Web page to CMS migration tool",
+    "type": "project",
+    "require": {
+        "symfony/dom-crawler": "^6.0",
+        "symfony/css-selector": "^6.0"
+    }
+}
